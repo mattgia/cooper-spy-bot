@@ -1,6 +1,7 @@
 import RPi.GPIO as GPIO
 import signal
 import os
+import sys
 
 MOTOR_LEFT_FORWARD_ID = int(os.environ['MOTOR_LEFT_FORWARD_ID'])
 MOTOR_RIGHT_FORWARD_ID = int(os.environ['MOTOR_RIGHT_FORWARD_ID'])
@@ -24,6 +25,7 @@ right_reverse = GPIO.PWM(MOTOR_RIGHT_BACKWARD_ID, 1000)
 def gpio_reset(*args):
     GPIO.cleanup()
     print('cleaned up GPIO')
+    sys.exit(0)
 
 signal.signal(signal.SIGTERM, gpio_reset)
 signal.signal(signal.SIGINT, gpio_reset)
@@ -49,6 +51,9 @@ def turn_right(speed = 100):
     _reset()
     left.start(speed * MOTOR_LEFT_TRIM)
     right_reverse.start(speed * MOTOR_RIGHT_TRIM)
+
+def stop():
+    _reset()
 
 def _reset():
     left.stop()
