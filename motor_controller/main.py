@@ -8,9 +8,17 @@ import motor_service
 from werkzeug.wrappers import Request, Response
 from werkzeug.serving import run_simple
 from jsonrpc import JSONRPCResponseManager, dispatcher
+from werkzeug.datastructures import Headers
 
 @Request.application
 def application(request):
+
+    if request.method == "OPTIONS":
+        headers = Headers()
+        headers.add("Access-Control-Allow-Origin", "*")
+        headers.add("Access-Control-Allow-Headers", "*")
+        headers.add("Access-Control-Allow-Methods", "*")
+        return Response(headers=headers)
     # Dispatcher is dictionary {<method_name>: callable}
     dispatcher["forward"] = motor_service.forward
     dispatcher["backward"] = motor_service.backward
@@ -20,8 +28,6 @@ def application(request):
 
     response = JSONRPCResponseManager.handle(
         request.data, dispatcher)
-    response.headers.add('Access-Control-Allow-Origin', '*')
-    response.headers.add('Access-Control-Allow-Methods', 'POST')
     return Response('OK', mimetype='application/text')
 
 

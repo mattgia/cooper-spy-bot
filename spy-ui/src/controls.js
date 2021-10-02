@@ -9,12 +9,12 @@ const move = (direction) =>
         "params": [],
         "jsonrpc": "2.0",
         "id": 0
-    });
-const stop = move('stop');
-const moveLeft = move('turn_left');
-const moveRight = move('turn_right');
-const moveForward = move('forward');
-const moveBackward = move('backward');
+    }).catch(console.error);
+const stop = () => move('stop');
+const moveLeft = () => move('turn_left');
+const moveRight = () => move('turn_right');
+const moveForward = () => move('forward');
+const moveBackward = () => move('backward');
 
 const directions = {
     up: 'ArrowUp',
