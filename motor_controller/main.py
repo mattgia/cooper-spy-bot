@@ -13,12 +13,11 @@ from werkzeug.datastructures import Headers
 @Request.application
 def application(request):
 
-    if request.method == "OPTIONS":
-        headers = Headers()
-        headers.add("Access-Control-Allow-Origin", "*")
-        headers.add("Access-Control-Allow-Headers", "*")
-        headers.add("Access-Control-Allow-Methods", "*")
-        return Response(headers=headers)
+    headers = Headers()
+    headers.add("Access-Control-Allow-Origin", "*")
+    headers.add("Access-Control-Allow-Headers", "*")
+    headers.add("Access-Control-Allow-Methods", "*")
+
     # Dispatcher is dictionary {<method_name>: callable}
     dispatcher["forward"] = motor_service.forward
     dispatcher["backward"] = motor_service.backward
@@ -28,7 +27,7 @@ def application(request):
 
     response = JSONRPCResponseManager.handle(
         request.data, dispatcher)
-    return Response('OK', mimetype='application/text')
+    return Response('OK', mimetype='application/text', headers=headers)
 
 
 if __name__ == '__main__':
