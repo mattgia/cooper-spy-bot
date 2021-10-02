@@ -1,5 +1,5 @@
 import axios from 'axios';
-
+import debounce from 'lodash.debounce';
 
 const { REACT_APP_MOTOR_CONTROLS_URL: controlsUrl } = process.env;
 
@@ -10,6 +10,7 @@ const move = (direction) =>
         "jsonrpc": "2.0",
         "id": 0
     }).catch(console.error);
+
 const stop = () => move('stop');
 const moveLeft = () => move('turn_left');
 const moveRight = () => move('turn_right');
@@ -24,6 +25,9 @@ const directions = {
 }
 
 window.onkeydown = (e) => {
+    if (e.repeat) {
+        return;
+    }
     if (e.code === directions.down) {
         moveBackward();
     } else if (e.code === directions.up) {
