@@ -10,11 +10,9 @@ const move = (direction) =>
         "jsonrpc": "2.0",
         "id": 0
     });
-
-
 const stop = move('stop');
-const moveLeft = move('left');
-const moveRight = move('right');
+const moveLeft = move('turn_left');
+const moveRight = move('turn_right');
 const moveForward = move('forward');
 const moveBackward = move('backward');
 
@@ -24,7 +22,6 @@ const directions = {
     left: 'ArrowLeft',
     right: 'ArrowRight'
 }
-
 
 window.onkeydown = (e) => {
     if (e.code === directions.down) {
@@ -44,7 +41,7 @@ window.onkeyup = (e) => {
 }
 
 const controls = () => {
-    return (<div>test</div>)
+    return <></>
 }
 
 

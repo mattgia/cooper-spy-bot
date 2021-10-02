@@ -9,12 +9,6 @@ from werkzeug.wrappers import Request, Response
 from werkzeug.serving import run_simple
 from jsonrpc import JSONRPCResponseManager, dispatcher
 
-
-@dispatcher.add_method
-def foobar(**kwargs):
-    return kwargs["foo"] + kwargs["bar"]
-
-
 @Request.application
 def application(request):
     # Dispatcher is dictionary {<method_name>: callable}
@@ -25,7 +19,9 @@ def application(request):
     dispatcher["stop"] = motor_service.stop 
 
     response = JSONRPCResponseManager.handle(
-        request.data, dispatcher),
+        request.data, dispatcher)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    response.headers.add('Access-Control-Allow-Methods', 'POST')
     return Response('OK', mimetype='application/text')
 
 
