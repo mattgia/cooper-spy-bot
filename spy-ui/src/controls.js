@@ -1,0 +1,51 @@
+import axios from 'axios';
+
+
+const { REACT_APP_MOTOR_CONTROLS_URL: controlsUrl } = process.env;
+
+const move = (direction) =>
+    axios.post(controlsUrl, {
+        "method": direction,
+        "params": [],
+        "jsonrpc": "2.0",
+        "id": 0
+    });
+
+
+const stop = move('stop');
+const moveLeft = move('left');
+const moveRight = move('right');
+const moveForward = move('forward');
+const moveBackward = move('backward');
+
+const directions = {
+    up: 'ArrowUp',
+    down: 'ArrowDown',
+    left: 'ArrowLeft',
+    right: 'ArrowRight'
+}
+
+
+window.onkeydown = (e) => {
+    if (e.code === directions.down) {
+        moveBackward();
+    } else if (e.code === directions.up) {
+        moveForward();
+    } else if (e.code === directions.right) {
+        moveRight()
+    } else if (e.code === directions.left) {
+        moveLeft()
+    }
+}
+window.onkeyup = (e) => {
+    if (Object.values(directions).includes(e.code)) {
+        stop()
+    }
+}
+
+const controls = () => {
+    return (<div>test</div>)
+}
+
+
+export default controls;

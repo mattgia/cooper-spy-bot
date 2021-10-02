@@ -1,12 +1,14 @@
-import './App.css';
+import './app.css';
+import Controls from './controls';
 
-function App() {
+const app = () => {
   const { REACT_APP_STREAM_URL: streamUrl } = process.env;
   return (
     <div className="main">
       <img src={streamUrl} className="stream-image" alt="logo" />
-    </div>
+      <Controls />
+    </div >
   );
 }
 
-export default App;
+export default app;
