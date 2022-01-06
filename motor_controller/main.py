@@ -10,6 +10,9 @@ from werkzeug.serving import run_simple
 from jsonrpc import JSONRPCResponseManager, dispatcher
 from werkzeug.datastructures import Headers
 
+
+DEFAULT_SPEED = 40
+
 @Request.application
 def application(request):
 
@@ -19,10 +22,10 @@ def application(request):
     headers.add("Access-Control-Allow-Methods", "*")
 
     # Dispatcher is dictionary {<method_name>: callable}
-    dispatcher["forward"] = motor_service.forward
-    dispatcher["backward"] = motor_service.backward
-    dispatcher["turn_left"] = motor_service.turn_left
-    dispatcher["turn_right"] = motor_service.turn_right
+    dispatcher["forward"] = lambda : motor_service.forward(DEFAULT_SPEED)
+    dispatcher["backward"] = lambda : motor_service.backward(DEFAULT_SPEED)
+    dispatcher["turn_left"] = lambda : motor_service.turn_left(DEFAULT_SPEED)
+    dispatcher["turn_right"] = lambda : motor_service.turn_right(DEFAULT_SPEED)
     dispatcher["stop"] = motor_service.stop 
 
     response = JSONRPCResponseManager.handle(
